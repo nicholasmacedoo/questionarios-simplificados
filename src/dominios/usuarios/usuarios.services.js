@@ -1,59 +1,49 @@
-const { v4: uuid } = require('uuid')
-
-var usuarios = [
-    {
-        id: 1,
-        nome: "Aurora",
-        sobrenome: "Lobo",
-        email: 'aurora@lab365.com.br',
-        senha: "dnjsan$$23",
-        createdAt: '2024-08-20'   
-    },
-    {
-        id: 2,
-        nome: "Amora",
-        sobrenome: "Lobo",
-        email: 'amora@lab365.com.br',
-        senha: "dnjsan$$23",
-        createdAt: '2024-08-20'   
-    }
-] 
-// DATA TRASNFER OBJECT = DTO
+const usuarioModel = require('../../database/models/usuarios')
+const { hash } = require('bcrypt')
 
 class UsuariosServices {
-    list() {
+    async list() {
+        const usuarios = await usuarioModel.findAll({
+            attributes: ['id', 'nome', 'sobrenome', 'email', 'createdAt', 'updatedAt']
+        })
+
         return usuarios
     }
 
-    createUser(usuarioDTO) {
-        const usuarioExiste = usuarios.find(usuario => usuario.email === usuarioDTO.email)
+    async createUser({ email, nome, sobrenome, senha }) {
+        const usuarioExiste = await usuarioModel.findOne({
+            where: {
+                email,
+            }
+        })
 
         if(usuarioExiste) {
             //throw new Error("Erro no servidor")
             return null
         }
 
-        const novoUsuario = {
-            id: uuid(),
-            nome: usuarioDTO.nome,
-            sobrenome: usuarioDTO.sobrenome,
-            email: usuarioDTO.email,
-            createdAt: new Date().toLocaleDateString(),
-        }
+        const senhaCriptografada = await hash(senha, 8)
 
-        usuarios.push(novoUsuario)
+        const usuario = await usuarioModel.create({
+            email, 
+            nome, 
+            sobrenome, 
+            senha: senhaCriptografada
+        })
 
-        return novoUsuario
+        return usuario
     }
     
     update() {}
 
-    delete(id) {
-        const usuarioExiste = usuarios.find(usuario => usuario.id === id)
+    async delete(id) {
+        const usuarioExiste = await usuarioModel.findByPk(id)
 
         if(!usuarioExiste) {
             return false
         }
+
+        await usuarioExiste.destroy()
 
         return true
     }

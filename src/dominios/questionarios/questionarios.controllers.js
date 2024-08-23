@@ -1,8 +1,8 @@
-const UsuarioService = require('./usuarios.services')
+const QuestionariosService = require('./questionarios.services')
 
-const usuarioService = new UsuarioService()
+const questionariosService = new QuestionariosService()
 
-class UsuariosControllers {
+class QuestionariosControllers {
     /**
      * 
      * @param {import('express').Request} request 
@@ -10,9 +10,9 @@ class UsuariosControllers {
      * @returns 
      */
     async index(request, response) {
-        const listaUsuarios = await usuarioService.list()
+        const listaQuestionarioss = await questionariosService.list()
         
-        return response.json(listaUsuarios)
+        return response.json(listaQuestionarioss)
     }
     /**
          * 
@@ -23,11 +23,9 @@ class UsuariosControllers {
     async create(request, response) {
         const { body } = request
 
-        const usuario = await usuarioService.createUser(body)
+        const Questionarios = await questionariosService.create(body)
 
-        if(!usuario) return response.status(400).json({ message: "Usuário já possui cadastro"}) 
-
-        return response.status(201).json(usuario)
+        return response.status(201).json(Questionarios)
     }
     /**
          * 
@@ -38,7 +36,7 @@ class UsuariosControllers {
     async delete(request, response) {
         const { id } = request.params
         
-        const apagou = await usuarioService.delete(id)
+        const apagou = await questionariosService.delete(id)
         
         if(!apagou) {
             return response.status(400).json({ message: "Não foi possivel apagar"})
@@ -48,4 +46,4 @@ class UsuariosControllers {
     }
 }
 
-module.exports = UsuariosControllers
+module.exports = QuestionariosControllers
