@@ -1,39 +1,24 @@
 require('dotenv').config()
-// const { config } = require('dotenv')
-// config()
-const database = require('./database/config')
 
+const database = require('./database/config')
 const express = require('express')
-const UsuariosControllers = require('./dominios/usuarios/usuarios.controllers')
-const QuestionariosControllers = require('./dominios/questionarios/questionarios.controllers')
+
+
+const usuarioRouter = require('./dominios/usuarios')
+const questionariosRouter = require('./dominios/questionarios')
+const sessionsRouter = require('./dominios/sessions')
+const respostasRouter = require('./dominios/respostas')
 
 
 const app = express()
 /** Config */
 app.use(express.json()) // middleware => interceptador
 
-const usuariosControllers = new UsuariosControllers()
-const questionariosControllers = new QuestionariosControllers()
-/** 
- * RESPONSAVEL APENAS POR CRIAR AS ROTAS E O SERVIDOR
- */
-/** ROTAS USUÁRIOS */
-app.get('/usuarios', usuariosControllers.index)
-app.post('/usuarios', usuariosControllers.create)
-app.delete('/usuarios/:id', usuariosControllers.delete)
-/** ROTAS DE QUESTIONARIOS */
-app.get('/questionarios', questionariosControllers.index)
-app.post('/questionarios', questionariosControllers.create)
-app.delete('/questionarios/:id', questionariosControllers.delete)
-
-/** ROTAS DE RESPOSTAS */
-// app.get('/questionarios', questionariosControllers.index)
-// app.post('/questionarios', questionariosControllers.create)
-// app.delete('/questionarios/:id', questionariosControllers.delete)
-
-// HTTP METHOD = GET + URL => ALGUM RECRUSO 
-
-/** criar usuario */
+/** DEFINIÇÃO DE ROTAS */
+app.use('/usuarios', usuarioRouter)
+app.use('/questionarios', questionariosRouter)
+app.use('/sessions', sessionsRouter)
+app.use('/respostas', respostasRouter)
 
 async function iniciarServidor() {
 

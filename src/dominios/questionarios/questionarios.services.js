@@ -1,17 +1,31 @@
-const questionariosModel = require('../../database/models/questionarios')
+const { Questionarios, Perguntas } = require('../../database/models/questionarios')
 
 
 class QuestionariosServices {
-    async list() {
-        const questionarios = await questionariosModel.findAll()
+    async list(carregarPerguntas = false) {
+        var questionarios;
+
+        if(carregarPerguntas) {
+            questionarios = await Questionarios.scope('carregarPerguntas').findAll()
+        } else {
+            questionarios = await Questionarios.findAll()
+        }
 
         return questionarios
     }
 
-    async create({ titulo, descricao }) {
-        const questionario = await questionariosModel.create({
+    async create({ titulo, descricao, perguntas }) {
+        const questionario = await Questionarios.create({
             titulo,
-            descricao
+            descricao,
+            perguntas
+        }, {
+            include: [
+                {
+                    model: Perguntas,
+                    as: 'perguntas'
+                }
+            ]
         })
 
         return questionario
@@ -20,7 +34,7 @@ class QuestionariosServices {
     update() {}
 
     async delete(id) {
-        const questionarioExiste = await questionariosModel.findByPk(id)
+        const questionarioExiste = await Questionarios.findByPk(id)
 
         if(!questionarioExiste) {
             return false

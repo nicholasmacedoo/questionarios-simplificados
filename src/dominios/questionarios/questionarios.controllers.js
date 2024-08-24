@@ -10,7 +10,8 @@ class QuestionariosControllers {
      * @returns 
      */
     async index(request, response) {
-        const listaQuestionarioss = await questionariosService.list()
+        const { carregarPerguntas } = request.query
+        const listaQuestionarioss = await questionariosService.list(carregarPerguntas)
         
         return response.json(listaQuestionarioss)
     }
