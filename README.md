@@ -33,7 +33,7 @@ A imagem a seguir apresenta o modelo ER utilizado no teste técnico original. Du
 
 ## Sobre o Professor
 
-Sou **Nicholas Macedo**, professor do programa FuturoDEV na LAB365 no SENAI de Santa Catarina. Tenho vasta experiência em desenvolvimento de software, com foco em Node.js e tecnologias relacionadas. Além de ensinar, também atuo como desenvolvedor, sempre buscando aplicar conhecimentos práticos em sala de aula.
+Sou **Nicholas Macedo**, professor do programa FuturoDEV na LAB365 no SENAI de Santa Catarina. Além de ensinar, também atuo como desenvolvedor, sempre buscando aplicar conhecimentos práticos em sala de aula.
 
 - **LinkedIn**: [linkedin.com/in/nicholasmacedoo](https://linkedin.com/in/nicholasmacedoo)
 - **GitHub**: [github.com/nicholasmacedoo](https://github.com/nicholasmacedoo)
