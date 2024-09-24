@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize')
 const database = require('../config')
+const { Perguntas } = require('./questionarios')
+const Usuario = require('./usuarios')
 
 
 const Respostas = database.define('respostas', {
@@ -42,6 +44,11 @@ const Respostas = database.define('respostas', {
         defaultValue: Sequelize.NOW,
     }
 })
+
+Respostas.belongsTo(Perguntas, { foreignKey: 'perguntaId' }) // pertencer a model
+Perguntas.hasMany(Respostas, { foreignKey: 'perguntaId' }) // possui varios => modelo
+Respostas.belongsTo(Usuario, { foreignKey: 'usuarioId'}) // 
+Usuario.hasMany(Respostas, { foreignKey: 'usuarioId' }) //
 
 module.exports = {
     Respostas

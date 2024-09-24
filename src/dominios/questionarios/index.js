@@ -3,7 +3,8 @@ const yup = require('yup')
 
 const QuestionariosControllers = require('./questionarios.controllers')
 const { validarSchema } = require('../../middlewares/validacaoRotas')
-const { garantirAutenticacao, garantirAutenticacaoRBAC } = require('../../middlewares/garantirAutenticacao')
+// const { garantirAutenticacao, garantirAutenticacaoRBAC } = require('../../middlewares/garantirAutenticacao')
+const { garantirAutenticao } = require('../../middlewares/auth')
 
 const questionariosRouter = Router()
 const questionariosControllers = new QuestionariosControllers()
@@ -26,9 +27,11 @@ const schemaDeleteQuestionario = yup.object({
     }),
 })
 
-questionariosRouter.use(garantirAutenticacaoRBAC('criador'))
+const garantirAutenticacaoCriador = garantirAutenticao('criador')
 
+questionariosRouter.use(garantirAutenticacaoCriador)
 questionariosRouter.get('/', questionariosControllers.index)
+questionariosRouter.get('/respostas', questionariosControllers.all)
 
 questionariosRouter.post('/', validarSchema(schemaPostQuestionario), questionariosControllers.create)
 

@@ -21,6 +21,9 @@ const Usuario = database.define('usuarios', {
         allowNull: false,
         unique: true,
       },
+      permissao: {
+        type: Sequelize.ENUM('criador', 'estudante'),
+      },
       senha: {
         type: Sequelize.STRING,
         allowNull: false,

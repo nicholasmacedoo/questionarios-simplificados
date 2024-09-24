@@ -45,6 +45,17 @@ class QuestionariosControllers {
 
         return response.status(204).end()
     }
+    /**
+         * @description Metodo responsavel por retornar todos os dados como questinario, perguntas e respostas. 
+         * @param {import('express').Request} request 
+         * @param {import('express').Response} response 
+         * @returns 
+     */
+    async all(request, response) {
+        const questionarios = await questionariosService.all()
+        
+        return response.json(questionarios)
+    }
 }
 
 module.exports = QuestionariosControllers
